@@ -1,0 +1,21 @@
+{
+  "name": "numerical.js",
+  "version": "0.1.0",
+  "description": "A plain HTML calculator",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run eslint && npm run htmlhint",
+    "eslint": "type standard && standard app/*.js",
+    "htmlhint": "type htmlhint && htmlhint app"
+  },
+  "repository": "xiaody/numerical-calculator",
+  "keywords": [
+    "calculator"
+  ],
+  "author": "xiaody",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-connect": "^2.3.1"
+  }
+}

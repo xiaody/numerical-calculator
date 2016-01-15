@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>numerical.js</title>
+    <link rel="stylesheet" href="app.css">
+  </head>
+  <body>
+    <section id="equation">
+      <div id="result">0</div>
+      <div id="formula"></div>
+    </section>
+    <section id="keypad" style="touch-action:none;">
+      <span class="j-func j-reset">C</span> <span data-token="%">%</span>
+      <span data-token="^"><span>X<sup>n</sup></span></span> <span class="j-func j-delete">&larr;</span>
+      <span>7</span> <span>8</span> <span>9</span> <span data-token="/">&divide;</span>
+      <span>4</span> <span>5</span> <span>6</span> <span data-token="*">&times;</span>
+      <span>1</span> <span>2</span> <span>3</span> <span data-token="+">&plus;</span>
+      <span>0</span> <span class="j-dot">.</span> <span class="j-bracket">(</span> <span data-token="-">&minus;</span>
+    </section>
+    <script src="vendor/hammer-time.js"></script>
+    <script src="vendor/math.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
