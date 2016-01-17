@@ -19,7 +19,15 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-#equation {
+.hidden {
+  display: none;
+}
+
+::selection {
+  background: #f06;
+}
+
+#output {
   flex: 25%;
   flex-grow: 0;
   display: flex;
@@ -29,7 +37,7 @@ body {
   font-family: arial, sans-serif;
 }
 
-#equation #result {
+#output #result {
   font-size: 56px;
   padding: 0 5px;
   border-bottom: 1px solid rgba(255, 255, 255, .25);
@@ -39,14 +47,15 @@ body {
   text-overflow: ellipsis;
 }
 
-#equation #result.font-small {
+#output #result.font-small {
   font-size: 38px;
 }
-#equation #result.font-x-small {
+#output #result.font-x-small,
+#output #equation {
   font-size: 28px;
 }
 
-#equation #formula {
+#output #formula {
   flex: 0 0 1.5em;
   padding: 0 5px;
   font-size: 22px;
@@ -54,7 +63,7 @@ body {
   word-wrap: break-word;
 }
 
-#equation #formula sup {
+#output #formula sup {
   vertical-align: top;
   font-size: 1em;
   line-height: 1;
@@ -79,6 +88,7 @@ body {
   justify-content: center;
   background: rgba(255, 255, 255, .1);
   transition: all ease .1s;
+  will-change: opacity;
 }
 
 #keypad > span:hover {

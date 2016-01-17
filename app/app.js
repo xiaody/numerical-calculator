@@ -11,16 +11,23 @@
     var lastResult = 0
     var cache = {}
     function mathEval (exp) {
-      exp = exp.replace(/%/g, '/100').replace(/[+\-\*\/\^\(]+$/, '')
+      exp = exp.replace(/%/g, '/100').replace(/[+\-\*\/\^]+$/, '')
+      var lpars = countChar(exp, '(')
+      var rpars = countChar(exp, ')')
+      while (rpars++ < lpars) {
+        exp += ')'
+      }
       return math.eval(exp)
     }
     var Computer = {
       input: function (token) {
-        formula = smartCorrect(formula + token)
+        formula = smartComplete(formula + token)
         return this
       },
       backspace: function () {
+        var deleted = formula.slice(-1)
         formula = formula.slice(0, -1)
+        formula = smartDelete(formula, deleted)
         return this
       },
       calc: function () {
@@ -49,21 +56,24 @@
       }
     }
     return Computer
-    /*
-     * try to correct the formula for user
-     */
-    function smartCorrect (exp) {
+
+    function smartComplete (exp) {
       if (exp.length === 1 && '%^/*'.indexOf(exp) > -1) {
         exp = 1 + exp
       }
-
       exp = exp.replace(/(^|\D)\./g, '$10.')
-
       var lpars = countChar(exp, '(')
       var rpars = countChar(exp, ')')
       if (lpars < rpars) {
         exp = '(' + exp
-      } else if (lpars > rpars && exp.length > lpars && exp[0] === '(') {
+      }
+      return exp
+    }
+
+    function smartDelete (exp, deleted) {
+      var lpars = countChar(exp, '(')
+      var rpars = countChar(exp, ')')
+      if (deleted === ')' && lpars > rpars && exp.length > lpars && exp[0] === '(') {
         exp = exp.slice(1)
       }
       return exp
@@ -83,6 +93,7 @@
       }
     }
 
+    var ndEquation = $('#equation')
     var ndFormula = $('#formula')
     var ndResult = $('#result')
     var nlNumAndOpe = $$('#keypad > span:not(.j-func)')
@@ -103,6 +114,16 @@
         ndDelete.addEventListener('click', function () {
           Computer.backspace()
           UI.sync()
+        })
+        $('#keypad').addEventListener('touchstart', function (e) {
+          e.preventDefault() // prevent iOS scroll
+        })
+        $('#output').addEventListener('dblclick', function (e) {
+          if (e.target !== e.currentTarget || !Computer.formula()) return
+          ndEquation.textContent = ndFormula.textContent + '=' + ndResult.textContent
+          ndResult.classList.toggle('hidden')
+          ndFormula.classList.toggle('hidden')
+          ndEquation.classList.toggle('hidden')
         })
       },
       sync: function () {

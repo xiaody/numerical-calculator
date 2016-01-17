@@ -6,12 +6,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>numerical.js</title>
     <link rel="stylesheet" href="app.css">
+    <link rel="apple-touch-icon" href="touch-icon.png">
     <!-- https://github.com/xiaody/numerical-calculator -->
   </head>
   <body>
-    <section id="equation">
+    <section id="output">
       <div id="result">0</div>
       <div id="formula"></div>
+      <div id="equation" class="hidden"></div>
     </section>
     <section id="keypad" style="touch-action:none;">
       <span class="j-func j-clear">C</span> <span data-token="%">%</span>
@@ -21,8 +23,8 @@
       <span>1</span> <span>2</span> <span>3</span> <span data-token="+">&plus;</span>
       <span>0</span> <span class="j-dot" data-token=".">.</span> <span class="j-bracket">(</span> <span data-token="-">&minus;</span>
     </section>
-    <script src="vendor/hammer-time.js"></script>
+    <script src="vendor/hammer-time.js" async></script>
     <script src="vendor/math.min.js"></script>
-    <script src="app.js"></script>
+    <script src="app.js" async></script>
   </body>
 </html>
