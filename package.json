@@ -1,12 +1,12 @@
 {
   "name": "numerical.js",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A plain HTML calculator",
   "main": "index.js",
   "scripts": {
     "test": "node test/test.js && npm run eslint && npm run htmlhint",
-    "eslint": "type standard >/dev/null && standard {,app/,test/}*.js",
-    "htmlhint": "type htmlhint >/dev/null && htmlhint app"
+    "eslint": "standard {,app/,test/}*.js",
+    "htmlhint": "htmlhint app"
   },
   "repository": "xiaody/numerical-calculator",
   "keywords": [
@@ -16,6 +16,9 @@
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-connect": "^2.3.1"
+    "gulp-connect": "^2.3.1",
+    "htmlhint": "^0.9.12",
+    "mathjs": "2.6.0",
+    "standard": "^5.4.1"
   }
 }
