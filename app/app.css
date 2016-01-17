@@ -15,7 +15,7 @@ body {
   flex-direction: column;
   line-height: 1.5;
   color: white;
-  background: linear-gradient(15deg, #f06, #f44);
+  background: linear-gradient(15deg, #f06, #f64);
   -webkit-tap-highlight-color: transparent;
 }
 

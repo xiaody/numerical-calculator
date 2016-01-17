@@ -1,12 +1,12 @@
 {
   "name": "numerical.js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A plain HTML calculator",
   "main": "index.js",
   "scripts": {
-    "test": "npm run eslint && npm run htmlhint",
-    "eslint": "type standard && standard app/*.js",
-    "htmlhint": "type htmlhint && htmlhint app"
+    "test": "node test/test.js && npm run eslint && npm run htmlhint",
+    "eslint": "type standard >/dev/null && standard {,app/,test/}*.js",
+    "htmlhint": "type htmlhint >/dev/null && htmlhint app"
   },
   "repository": "xiaody/numerical-calculator",
   "keywords": [
