@@ -25,9 +25,7 @@
         return this
       },
       backspace: function () {
-        var deleted = formula.slice(-1)
-        formula = formula.slice(0, -1)
-        formula = smartDelete(formula, deleted)
+        formula = smartDelete(formula, 1)
         return this
       },
       calc: function () {
@@ -70,11 +68,21 @@
       return exp
     }
 
-    function smartDelete (exp, deleted) {
-      var lpars = countChar(exp, '(')
-      var rpars = countChar(exp, ')')
-      if (deleted === ')' && lpars > rpars && exp.length > lpars && exp[0] === '(') {
-        exp = exp.slice(1)
+    function smartDelete (exp, deleteCount) {
+      if (deleteCount > 1) return exp.slice(0, -deleteCount)
+      var toDelete = exp.slice(-1)
+      if (toDelete === ')' && exp[0] === '(') {
+        try {
+          if (math.parse(exp).isParenthesisNode) {
+            exp = exp.slice(1, -1)
+          } else {
+            exp = exp.slice(0, -1)
+          }
+        } catch (e) {
+          exp = exp.slice(0, -1)
+        }
+      } else {
+        exp = exp.slice(0, -1)
       }
       return exp
     }
