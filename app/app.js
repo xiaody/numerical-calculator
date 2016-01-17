@@ -59,7 +59,7 @@
       if (exp.length === 1 && '%^/*'.indexOf(exp) > -1) {
         exp = 1 + exp
       }
-      exp = exp.replace(/(^|\D)\./g, '$10.')
+      exp = exp.replace(/(^|\D)\./g, '$10.').replace(/\)(\d)/g, ')*$1')
       var lpars = countChar(exp, '(')
       var rpars = countChar(exp, ')')
       if (lpars < rpars) {

@@ -33,5 +33,15 @@ assert.equal(
   '(1+2)+(1+1',
   'auto-complete brackets'
 )
+assert.equal(
+  Computor.clear().input('(1+2)3').formula(),
+  '(1+2)*3',
+  'number comprehensions'
+)
+assert.equal(
+  Computor.clear().input('(1+.2).3').formula(),
+  '(1+0.2)*0.3',
+  'number comprehensions'
+)
 
 console.log('math test OK')
