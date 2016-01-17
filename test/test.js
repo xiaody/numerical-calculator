@@ -18,4 +18,20 @@ assert.equal(calc('(1+2)^3'), pow(1 + 2, 3), 'complex tests')
 assert.equal(calc('-2*10^2*2'), -2 * pow(10, 2) * 2, 'complex tests')
 assert.equal(calc('3%*4/2^3*5'), (3 / 100) * 4 / pow(2, 3) * 5, 'complex tests')
 
+assert.equal(
+  Computor.clear().input('1+2)').formula(),
+  '(1+2)',
+  'auto-complete brackets'
+)
+assert.equal(
+  Computor.clear().input('(1+2)').backspace().formula(),
+  '1+2',
+  'auto-complete brackets'
+)
+assert.equal(
+  Computor.clear().input('(1+2)+(1+1)').backspace().formula(),
+  '(1+2)+(1+1',
+  'auto-complete brackets'
+)
+
 console.log('math test OK')
