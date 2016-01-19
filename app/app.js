@@ -148,7 +148,7 @@
           setKeysEnabled(nlOpe, false)
           setBracket('(')
         }
-        setKeysEnabled('.', !/\.[\d\)%\^]*$/.test(formula))
+        setKeysEnabled('.', !/\.[\d\)%]*$/.test(formula))
 
         // render to HTML
         var result = Computer.calc() || 0
@@ -203,10 +203,10 @@
     }
 
     function humanizeNum (number) {
-      if (math.largerEq(number, 1e10)) {
+      if (math.largerEq(number, 1e12)) {
         number = math.format(number, {
           notation: 'exponential',
-          precision: 10
+          precision: 12
         })
       }
       return number
