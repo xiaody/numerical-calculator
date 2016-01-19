@@ -37,7 +37,7 @@ body {
   font-family: arial, sans-serif;
 }
 
-#output #result {
+#result {
   font-size: 56px;
   padding: 0 5px;
   border-bottom: 1px solid rgba(255, 255, 255, .25);
@@ -47,15 +47,29 @@ body {
   text-overflow: ellipsis;
 }
 
-#output #result.font-small {
+#result.font-small {
   font-size: 38px;
 }
-#output #result.font-x-small,
-#output #equation {
+#result.font-x-small,
+#equation {
   font-size: 28px;
 }
 
-#output #formula {
+#result .exponential {
+  display: inline-flex;
+  max-width: 100%;
+  /* flex-shrink for children to workaround Safari */
+}
+#result.font-x-small .exponential span {
+  flex-shrink: 0;
+}
+#result.font-x-small .exponential .shrinkable {
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#formula {
   flex: 0 0 auto;
   padding: 0 5px;
   min-height: 1.5em;
@@ -64,7 +78,7 @@ body {
   word-wrap: break-word;
 }
 
-#output #formula sup {
+#formula sup {
   vertical-align: top;
   font-size: 1em;
   line-height: 1;

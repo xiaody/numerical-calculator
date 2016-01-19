@@ -59,7 +59,10 @@
       if (exp.length === 1 && '%^/*'.indexOf(exp) > -1) {
         exp = 1 + exp
       }
-      exp = exp.replace(/(^|\D)\./g, '$10.').replace(/\)(\d)/g, ')*$1')
+      exp = exp.replace(/(^|\D)\./g, '$10.')
+          .replace(/\.(\D)/g, '.0$1')
+          .replace(/\)(\d)/g, ')*$1')
+          .replace(/%(\d)/g, '%*$1')
       var lpars = countChar(exp, '(')
       var rpars = countChar(exp, ')')
       if (lpars < rpars) {
@@ -123,15 +126,8 @@
           Computer.backspace()
           UI.sync()
         })
-        $('#keypad').addEventListener('touchstart', function (e) {
+        document.addEventListener('touchmove', function (e) {
           e.preventDefault() // prevent iOS scroll
-        })
-        $('#output').addEventListener('dblclick', function (e) {
-          if (e.target !== e.currentTarget || !Computer.formula()) return
-          ndEquation.textContent = ndFormula.textContent + '=' + ndResult.textContent
-          ndResult.classList.toggle('hidden')
-          ndFormula.classList.toggle('hidden')
-          ndEquation.classList.toggle('hidden')
         })
       },
       sync: function () {
@@ -153,7 +149,7 @@
         // render to HTML
         var result = Computer.calc() || 0
         ndFormula.innerHTML = humanizeOpe(formula)
-        ndResult.textContent = humanizeNum(result)
+        ndResult.innerHTML = humanizeNum(result)
 
         // responsive font-size for result
         ndResult.classList.remove('font-small', 'font-x-small')
@@ -203,11 +199,13 @@
     }
 
     function humanizeNum (number) {
-      if (math.largerEq(number, 1e12)) {
-        number = math.format(number, {
-          notation: 'exponential',
-          precision: 12
-        })
+      number += ''
+      var eIndex = number.indexOf('e')
+      if (eIndex > -1) {
+        number = '<span class=exponential>' +
+            '<span class=shrinkable>' + number.slice(0, eIndex) + '</span>' +
+            '<span>' + number.slice(eIndex) + '</span>' +
+            '</span>'
       }
       return number
     }
