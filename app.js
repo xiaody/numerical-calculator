@@ -59,7 +59,10 @@
       if (exp.length === 1 && '%^/*'.indexOf(exp) > -1) {
         exp = 1 + exp
       }
-      exp = exp.replace(/(^|\D)\./g, '$10.').replace(/\)(\d)/g, ')*$1')
+      exp = exp.replace(/(^|\D)\./g, '$10.')
+          .replace(/\.(\D)/g, '.0$1')
+          .replace(/\)(\d)/g, ')*$1')
+          .replace(/%(\d)/g, '%*$1')
       var lpars = countChar(exp, '(')
       var rpars = countChar(exp, ')')
       if (lpars < rpars) {
@@ -95,15 +98,11 @@
   })()
 
   var UI = (function () {
-    if (isHeadless) {
-      return {
-        init: function () {}
-      }
-    }
+    if (isHeadless) return { init: noop }
 
-    var ndEquation = $('#equation')
     var ndFormula = $('#formula')
     var ndResult = $('#result')
+    var nlKeys = $$('#keypad > span')
     var nlNumAndOpe = $$('#keypad > span:not(.j-func)')
     var nlOpe = $$('#keypad [data-token]')
     var ndBracket = $('#keypad .j-bracket')
@@ -112,6 +111,13 @@
 
     var UI = {
       init: function () {
+        if (document.readyState === 'complete') {
+          this._initListeners()
+        } else {
+          window.addEventListener('load', this._initListeners)
+        }
+      },
+      _initListeners: function () {
         nlNumAndOpe.forEach(function (elt) {
           elt.addEventListener('click', function () {
             Computer.input(elt.dataset.token || elt.textContent)
@@ -123,15 +129,30 @@
           Computer.backspace()
           UI.sync()
         })
-        $('#keypad').addEventListener('touchstart', function (e) {
-          e.preventDefault() // prevent iOS scroll
+        // keyboard controll
+        '0123456789.+-*/%^()'.split('').forEach(function (token) {
+          window.Mousetrap.bind(token, function () {
+            nlKeys.some(function (ndKey) {
+              var hit = (ndKey.dataset.token || ndKey.textContent) === token
+              if (hit && !ndKey.classList.contains('disabled')) {
+                Computer.input(token)
+                UI.sync()
+              }
+              return hit
+            })
+          })
         })
-        $('#output').addEventListener('dblclick', function (e) {
-          if (e.target !== e.currentTarget || !Computer.formula()) return
-          ndEquation.textContent = ndFormula.textContent + '=' + ndResult.textContent
-          ndResult.classList.toggle('hidden')
-          ndFormula.classList.toggle('hidden')
-          ndEquation.classList.toggle('hidden')
+        window.Mousetrap.bind(['backspace', 'del'], function () {
+          Computer.backspace()
+          UI.sync()
+          return false
+        })
+        window.Mousetrap.bind(['esc', 'c', 'C', 'ctrl+u'], function () {
+          UI.reset()
+          return false
+        })
+        document.addEventListener('touchmove', function (e) {
+          e.preventDefault() // prevent iOS scroll
         })
       },
       sync: function () {
@@ -148,12 +169,12 @@
           setKeysEnabled(nlOpe, false)
           setBracket('(')
         }
-        setKeysEnabled('.', !/\.[\d\)%\^]*$/.test(formula))
+        setKeysEnabled('.', !/\.[\d\)%]*$/.test(formula))
 
         // render to HTML
         var result = Computer.calc() || 0
         ndFormula.innerHTML = humanizeOpe(formula)
-        ndResult.textContent = humanizeNum(result)
+        ndResult.innerHTML = humanizeNum(result)
 
         // responsive font-size for result
         ndResult.classList.remove('font-small', 'font-x-small')
@@ -203,11 +224,13 @@
     }
 
     function humanizeNum (number) {
-      if (math.largerEq(number, 1e10)) {
-        number = math.format(number, {
-          notation: 'exponential',
-          precision: 10
-        })
+      number += ''
+      var eIndex = number.indexOf('e')
+      if (eIndex > -1) {
+        number = '<span class=exponential>' +
+            '<span class=shrinkable>' + number.slice(0, eIndex) + '</span>' +
+            '<span>' + number.slice(eIndex) + '</span>' +
+            '</span>'
       }
       return number
     }
@@ -223,4 +246,6 @@
   function $$ (selector) {
     return Array.from(document.querySelectorAll(selector))
   }
+
+  function noop () {}
 })(typeof window === 'object' ? window.math : require('mathjs'))
