@@ -98,15 +98,11 @@
   })()
 
   var UI = (function () {
-    if (isHeadless) {
-      return {
-        init: function () {}
-      }
-    }
+    if (isHeadless) return { init: noop }
 
-    var ndEquation = $('#equation')
     var ndFormula = $('#formula')
     var ndResult = $('#result')
+    var nlKeys = $$('#keypad > span')
     var nlNumAndOpe = $$('#keypad > span:not(.j-func)')
     var nlOpe = $$('#keypad [data-token]')
     var ndBracket = $('#keypad .j-bracket')
@@ -115,6 +111,13 @@
 
     var UI = {
       init: function () {
+        if (document.readyState === 'complete') {
+          this._initListeners()
+        } else {
+          window.addEventListener('load', this._initListeners)
+        }
+      },
+      _initListeners: function () {
         nlNumAndOpe.forEach(function (elt) {
           elt.addEventListener('click', function () {
             Computer.input(elt.dataset.token || elt.textContent)
@@ -125,6 +128,28 @@
         ndDelete.addEventListener('click', function () {
           Computer.backspace()
           UI.sync()
+        })
+        // keyboard controll
+        '0123456789.+-*/%^()'.split('').forEach(function (token) {
+          window.Mousetrap.bind(token, function () {
+            nlKeys.some(function (ndKey) {
+              var hit = (ndKey.dataset.token || ndKey.textContent) === token
+              if (hit && !ndKey.classList.contains('disabled')) {
+                Computer.input(token)
+                UI.sync()
+              }
+              return hit
+            })
+          })
+        })
+        window.Mousetrap.bind(['backspace', 'del'], function () {
+          Computer.backspace()
+          UI.sync()
+          return false
+        })
+        window.Mousetrap.bind(['esc', 'c', 'C', 'ctrl+u'], function () {
+          UI.reset()
+          return false
         })
         document.addEventListener('touchmove', function (e) {
           e.preventDefault() // prevent iOS scroll
@@ -221,4 +246,6 @@
   function $$ (selector) {
     return Array.from(document.querySelectorAll(selector))
   }
+
+  function noop () {}
 })(typeof window === 'object' ? window.math : require('mathjs'))
