@@ -120,7 +120,10 @@
       _initListeners: function () {
         nlNumAndOpe.forEach(function (elt) {
           onPointer(elt, function () {
-            Computer.input(elt.dataset.token || elt.textContent)
+            // `getAttribute` instead of `dataset` to workaround iOS safari issue:
+            // sometimes the `dataset.token` becomes Schrödinger state
+            // after a lot of concentrated touch events,
+            Computer.input(elt.getAttribute('data-token') || elt.textContent)
             UI.sync()
           })
         })
