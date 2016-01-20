@@ -119,13 +119,13 @@
       },
       _initListeners: function () {
         nlNumAndOpe.forEach(function (elt) {
-          elt.addEventListener('click', function () {
+          onPointer(elt, function () {
             Computer.input(elt.dataset.token || elt.textContent)
             UI.sync()
           })
         })
-        ndClear.addEventListener('click', UI.reset)
-        ndDelete.addEventListener('click', function () {
+        onPointer(ndClear, UI.reset)
+        onPointer(ndDelete, function () {
           Computer.backspace()
           UI.sync()
         })
@@ -245,6 +245,37 @@
 
   function $$ (selector) {
     return Array.from(document.querySelectorAll(selector))
+  }
+
+  function onPointer (target, listener) {
+    if ('ontouchend' in window) {
+      target.addEventListener('touchend', function (e) {
+        var cord = e.changedTouches[0]
+        if (point2rect(cord, target.getBoundingClientRect()) < 25) {
+          listener(e)
+        }
+      })
+    } else {
+      target.addEventListener('click', listener)
+    }
+  }
+
+  function point2rect (point, rect) {
+    var x = point.clientX
+    var y = point.clientY
+    var w = 0
+    var h = 0
+    if (x < rect.left) {
+      w = rect.left - x
+    } else if (x > rect.right) {
+      w = x - rect.right
+    }
+    if (y > rect.bottom) {
+      h = rect.bottom -y
+    } else if (y < rect.top) {
+      h = y - rect.top
+    }
+    return Math.sqrt(w * w + h * h)
   }
 
   function noop () {}
