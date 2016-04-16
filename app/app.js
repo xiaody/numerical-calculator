@@ -274,7 +274,7 @@
       w = x - rect.right
     }
     if (y > rect.bottom) {
-      h = rect.bottom -y
+      h = rect.bottom - y
     } else if (y < rect.top) {
       h = y - rect.top
     }

@@ -4,6 +4,7 @@
   "description": "A plain HTML calculator",
   "main": "index.js",
   "scripts": {
+    "start": "gulp serve",
     "test": "node test/test.js && npm run eslint && npm run htmlhint",
     "eslint": "standard {,app/,test/}*.js",
     "htmlhint": "htmlhint app"
