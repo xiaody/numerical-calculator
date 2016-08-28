@@ -85,10 +85,9 @@ body {
 }
 
 #keypad {
-  display: flex;
-  flex-wrap: wrap;
   flex-grow: 1;
-  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
   font-size: 28px;
   font-family: monospace;
   cursor: pointer;
@@ -97,27 +96,31 @@ body {
   user-select: none;
 }
 
-#keypad > span {
-  flex: 1 0 22%;
-  height: 15vh;
-  margin: .5px;
+.keypad-row {
+  display: flex;
+  flex: 1 0 0;
+}
+
+.keypad-row > span {
+  flex: 1 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: .5px;
   background: rgba(255, 255, 255, .1);
   transition: all ease .1s;
   will-change: opacity, filter;
 }
 
-#keypad > span:hover {
+.keypad-row > span:hover {
   background: rgba(255, 255, 255, .15);
 }
 
-#keypad > span:active {
+.keypad-row > span:active {
   background: rgba(255, 255, 255, .25);
 }
 
-#keypad > span.disabled {
+.keypad-row > span.disabled {
   opacity: .5;
   pointer-events: none;
   -webkit-filter: blur(.5px);

@@ -20,6 +20,6 @@
     "gulp-connect": "^4",
     "htmlhint": "^0.9.13",
     "mathjs": "3.2.1",
-    "standard": "^7.1.2"
+    "standard": "^8.0.0"
   }
 }
