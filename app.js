@@ -103,8 +103,8 @@
 
     var ndFormula = $('#formula')
     var ndResult = $('#result')
-    var nlKeys = $$('#keypad > span')
-    var nlNumAndOpe = $$('#keypad > span:not(.j-func)')
+    var nlKeys = $$('.keypad-row > span')
+    var nlNumAndOpe = $$('.keypad-row > span:not(.j-func)')
     var nlOpe = $$('#keypad [data-token]')
     var ndBracket = $('#keypad .j-bracket')
     var ndClear = $('#keypad .j-clear')
@@ -163,7 +163,7 @@
         // set keys state
         var formula = Computer.formula()
         if (!formula) {
-          setKeysEnabled($$('#keypad > span'), true)
+          setKeysEnabled($$('.keypad-row > span'), true)
           setBracket('(')
         } else if (/[\d)%.]$/.test(formula)) {
           setKeysEnabled(nlOpe, true)
