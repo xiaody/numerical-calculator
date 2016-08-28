@@ -1,7 +1,7 @@
 ;(function (math) {
   'use strict'
   math.config({
-    number: 'bignumber',
+    number: 'BigNumber',
     precision: 16
   })
   var isHeadless = typeof window === 'undefined'
@@ -42,7 +42,8 @@
             ret = lastResult
           }
         }
-        return (lastResult = cache[formula] = ret)
+        lastResult = cache[formula] = ret
+        return ret
       },
       clear: function () {
         formula = ''
@@ -274,7 +275,7 @@
       w = x - rect.right
     }
     if (y > rect.bottom) {
-      h = rect.bottom -y
+      h = rect.bottom - y
     } else if (y < rect.top) {
       h = y - rect.top
     }
