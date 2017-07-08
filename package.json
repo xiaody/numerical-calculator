@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "gulp serve",
-    "test": "node test/test.js && npm run eslint && npm run htmlhint",
-    "eslint": "standard {,app/,test/}*.js",
+    "test": "node test/test.js && npm run lint && npm run htmlhint",
+    "lint": "standard",
+    "lint:fix": "standard --fix",
     "htmlhint": "htmlhint app"
   },
   "repository": "xiaody/numerical-calculator",
@@ -17,9 +18,9 @@
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-connect": "^4",
+    "gulp-connect": "^5",
     "htmlhint": "^0.9.13",
     "mathjs": "3.2.1",
-    "standard": "^8.0.0"
+    "standard": "10.0.2"
   }
 }
