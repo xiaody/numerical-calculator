@@ -158,6 +158,9 @@
         document.addEventListener('touchmove', function (e) {
           e.preventDefault() // prevent iOS scroll
         })
+        document.addEventListener('touchstart', function (e) {
+          e.preventDefault() // prevent iOS zoom
+        })
       },
       sync: function () {
         // set keys state
@@ -252,34 +255,11 @@
   }
 
   function onPointer (target, listener) {
-    if ('ontouchend' in window) {
-      target.addEventListener('touchend', function (e) {
-        var cord = e.changedTouches[0]
-        if (point2rect(cord, target.getBoundingClientRect()) < 25) {
-          listener(e)
-        }
-      })
+    if ('ontouchstart' in window) {
+      target.addEventListener('touchstart', listener)
     } else {
       target.addEventListener('click', listener)
     }
-  }
-
-  function point2rect (point, rect) {
-    var x = point.clientX
-    var y = point.clientY
-    var w = 0
-    var h = 0
-    if (x < rect.left) {
-      w = rect.left - x
-    } else if (x > rect.right) {
-      w = x - rect.right
-    }
-    if (y > rect.bottom) {
-      h = rect.bottom - y
-    } else if (y < rect.top) {
-      h = y - rect.top
-    }
-    return Math.sqrt(w * w + h * h)
   }
 
   function noop () {}

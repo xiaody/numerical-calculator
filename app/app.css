@@ -108,15 +108,13 @@ body {
   justify-content: center;
   margin: .5px;
   background: rgba(255, 255, 255, .1);
-  transition: all ease .1s;
+  transition: all ease .5s .1s;
   will-change: opacity, filter;
 }
 
-.keypad-row > span:hover {
-  background: rgba(255, 255, 255, .15);
-}
-
 .keypad-row > span:active {
+  transition-delay: 0;
+  transition-duration: .1s;
   background: rgba(255, 255, 255, .25);
 }
 
