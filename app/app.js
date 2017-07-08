@@ -11,7 +11,7 @@
     var lastResult = 0
     var cache = {}
     function mathEval (exp) {
-      exp = exp.replace(/%/g, '/100').replace(/[+\-\*\/\^]+$/, '')
+      exp = exp.replace(/%/g, '/100').replace(/[+\-*/^]+$/, '')
       var lpars = countChar(exp, '(')
       var rpars = countChar(exp, ')')
       while (rpars++ < lpars) {
@@ -167,13 +167,13 @@
           setBracket('(')
         } else if (/[\d)%.]$/.test(formula)) {
           setKeysEnabled(nlOpe, true)
-          setKeysEnabled('%^', !/[%\^]$/.test(formula))
+          setKeysEnabled('%^', !/[%^]$/.test(formula))
           setBracket(')')
         } else {
           setKeysEnabled(nlOpe, false)
           setBracket('(')
         }
-        setKeysEnabled('.', !/\.[\d\)%]*$/.test(formula))
+        setKeysEnabled('.', !/\.[\d%]*$/.test(formula))
 
         // render to HTML
         var result = Computer.calc() || 0
@@ -223,7 +223,7 @@
       return exp.replace(/\*/g, '&times;')
           .replace(/\//g, '&divide;')
           .replace(/\+/g, '&plus;')
-          .replace(/\-/g, '&minus;')
+          .replace(/-/g, '&minus;')
           .replace(/\^/g, '<sup>&#8319;</sup>')
     }
 
