@@ -20,7 +20,7 @@
     "gulp": "^3.9.1",
     "gulp-connect": "^5",
     "htmlhint": "^0.9.13",
-    "mathjs": "3.2.1",
-    "standard": "10.0.2"
+    "mathjs": "3.18.0",
+    "standard": "10.0.3"
   }
 }
